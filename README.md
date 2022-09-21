@@ -132,6 +132,13 @@ GameMode->RestartPlayer(CortollerRef);
 https://docs.unrealengine.com/5.0/en-US/setting-up-a-game-mode-in-unreal-engine/
 Window -> World Setting -> GameMode -> GameMode Override 中选择
 
+## Gameplay 第六课：Respawn
+### 知识点：
+1. 创建2个Role
+2. 选中2个，open level blueprint
+3. Create References to 2 selected Actors
+4. 添加input 按键
+5. 链接 possess 事件
 
 
 ---
