@@ -128,6 +128,11 @@ Tags.Add(FName("FindActorTag"));
 ```c
 GameMode->RestartPlayer(CortollerRef);
 ```
+5.  覆盖默认的GameMode
+https://docs.unrealengine.com/5.0/en-US/setting-up-a-game-mode-in-unreal-engine/
+Window -> World Setting -> GameMode -> GameMode Override 中选择
+
+
 
 ---
 
