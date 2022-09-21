@@ -119,6 +119,16 @@ Tags.Add(FName("FindActorTag"));
 	}
 ```
 
+## Gameplay 第五课：Respawn
+### 知识点：
+1.  创建基于 GameModeBase 的 gamemode
+2.  把默认的GameMode 修改 新的GameMode；Edit->Project Setting->General->Maps&Modes
+3.  绑定R键，模拟Actor Destroy操作
+4.  RestartPlayer
+```c
+GameMode->RestartPlayer(CortollerRef);
+```
+
 ---
 
 https://docs.unrealengine.com/5.0/en-US/adding-components-to-an-actor-in-unreal-engine/

@@ -14,6 +14,8 @@
 #include "FireEffect.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/AudioComponent.h"
+#include "RespawnPlayerGameMode.h"
+#include "HealthCompGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AHealthCompCharacter
@@ -90,6 +92,7 @@ void AHealthCompCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 
 	PlayerInputComponent->BindAction("FindActorPressed", IE_Pressed, this, &AHealthCompCharacter::OnFindActorPressed);
 
+	PlayerInputComponent->BindAction("Restart", IE_Pressed, this, &AHealthCompCharacter::CallRestartPlayer);
 
 }
 
@@ -194,6 +197,47 @@ void AHealthCompCharacter::OnFindActorPressed()
 
 			//Get the Fire Audio Component and deactivate it.           
 			FireEffectCast->GetFireAudioComponent()->Deactivate();
+		}
+	}
+}
+
+void AHealthCompCharacter::Destroyed()
+{
+	Super::Destroyed();
+
+	// Example to bind to OnPlayerDied event in GameMode. 
+	if (UWorld* World = GetWorld())
+	{
+		if (ARespawnPlayerGameMode* GameMode = Cast<ARespawnPlayerGameMode>(World->GetAuthGameMode()))
+		{
+			GameMode->GetOnPlayerDied().Broadcast(this);
+		}
+	}
+}
+
+void AHealthCompCharacter::CallRestartPlayer()
+{
+	UE_LOG(LogTemp, Warning, TEXT("CallRestartPlayer"));
+
+	//Get a reference to the Pawn Controller.
+	AController* CortollerRef = GetController();
+
+	//Destroy the Player.   
+	Destroy();
+
+	//Get the World and GameMode in the world to invoke its restart player function.
+	if (UWorld* World = GetWorld())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GetWorld"));
+
+		ARespawnPlayerGameMode* GameMode = Cast<ARespawnPlayerGameMode>(World->GetAuthGameMode());
+		AHealthCompGameMode* GameMode1 = Cast<AHealthCompGameMode>(World->GetAuthGameMode());
+		UE_LOG(LogTemp, Warning, TEXT("GameMode = %d"), GameMode == nullptr);
+		UE_LOG(LogTemp, Warning, TEXT("GameMode1 = %d"), GameMode1 == nullptr);
+
+		if (GameMode)
+		{
+			GameMode->RestartPlayer(CortollerRef);
 		}
 	}
 }
