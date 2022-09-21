@@ -34,6 +34,30 @@ MyOwner->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::HandleTakeAnyDamage
 UGameplayStatics::ApplyDamage(this, 20.0f, GetInstigatorController(),this,GenericDamageType);
 ```
 
+---
 
+## Gameplay 第二课：Event Dispatch and Delegates
+### 知识点：
+1.  给 BossActor 添加代理
+```c
+DECLARE_DELEGATE(FOnBossDiedDelegate);
+```
+
+2.  设置简单的碰撞体 UBoxComponent
+```c
+	BoxComp->SetVisibility(true);
+	BoxComp->SetHiddenInGame(false);
+```
+
+3.  实现 NotifyActorBeginOverlap
+4.  给 DoorActor 实现开门效果
+4.1 UTimelineComponent 、 FOnTimelineFloat 和 UCurveFloat 配合使用
+5. 最后，通过设置 Door 的 Z 旋转，开启门的效果
+```c
+    FRotator DoorNewRotation = FRotator(0.0f, Output, 0.f);
+    Door->SetRelativeRotation(DoorNewRotation);
+```
+
+---
 
 https://docs.unrealengine.com/5.0/en-US/adding-components-to-an-actor-in-unreal-engine/
