@@ -79,5 +79,8 @@ protected:
 	//Function which will call damage to our Player
 	UFUNCTION()
 		void DamagePlayerCharacter();
+
+public:
+	void NotifyActorBeginOverlap(AActor* OtherActor);
 };
 

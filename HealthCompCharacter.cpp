@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "HealthComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "InteractInterface.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AHealthCompCharacter
@@ -156,4 +157,12 @@ void AHealthCompCharacter::DamagePlayerCharacter()
 {
 	// 执行Damage操作，监听 OnTakeAnyDamege 的Component会收到通知；此处是 HealthComponent 会收到。
 	UGameplayStatics::ApplyDamage(this, 20.0f, GetInstigatorController(), this, GenericDamageType);
+}
+
+void AHealthCompCharacter::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	if (IInteractInterface* ActorCheck = Cast<IInteractInterface>(OtherActor))
+	{
+		ActorCheck->OnInteract();
+	}
 }
