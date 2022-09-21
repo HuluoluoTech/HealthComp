@@ -57,6 +57,30 @@ DECLARE_DELEGATE(FOnBossDiedDelegate);
     FRotator DoorNewRotation = FRotator(0.0f, Output, 0.f);
     Door->SetRelativeRotation(DoorNewRotation);
 ```
+## Gameplay 第三课：Interface
+### 知识点：
+1.  创建 Interface
+
+2. 多个Component的话，创建一个底层 USceneComponent ;Useful as a 'dummy' component in the hierarchy to offset others.
+```c
+    // SceneComponent has a transform and supports attachment
+    RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+    StaticMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComp"));
+    PointLightComp = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLightComp"));
+
+    //StaticMeshComp->SetupAttachment(RootComponent);
+
+    PointLightComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+    PointLightComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+    PointLightComp->SetWorldLocation(FVector(0, 0, -130));
+```
+3. 当 character 进入房间，打开 light; OtherActor 开关按钮
+```c
+	if (IInteractInterface* ActorCheck = Cast<IInteractInterface>(OtherActor))
+	{
+		ActorCheck->OnInteract();
+	}
+```
 
 ---
 

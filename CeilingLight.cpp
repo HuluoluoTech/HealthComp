@@ -17,8 +17,8 @@ ACeilingLight::ACeilingLight()
 
     //StaticMeshComp->SetupAttachment(RootComponent);
 
-    PointLightComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-    PointLightComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+    StaticMeshComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+    PointLightComp->AttachToComponent(StaticMeshComp, FAttachmentTransformRules::KeepRelativeTransform);
     PointLightComp->SetWorldLocation(FVector(0, 0, -130));
 
     Brightness = 1700.f;
