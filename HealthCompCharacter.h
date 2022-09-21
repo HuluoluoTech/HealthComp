@@ -82,5 +82,8 @@ protected:
 
 public:
 	void NotifyActorBeginOverlap(AActor* OtherActor);
+
+protected:
+	void OnFindActorPressed();
 };
 

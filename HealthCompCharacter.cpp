@@ -10,6 +10,10 @@
 #include "HealthComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "InteractInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "FireEffect.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "Components/AudioComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AHealthCompCharacter
@@ -83,6 +87,9 @@ void AHealthCompCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 
 	//Bind OnDamagePressed Action Event
 	PlayerInputComponent->BindAction("OnDamagePressed", IE_Pressed, this, &AHealthCompCharacter::DamagePlayerCharacter);
+
+	PlayerInputComponent->BindAction("FindActorPressed", IE_Pressed, this, &AHealthCompCharacter::OnFindActorPressed);
+
 
 }
 
@@ -164,5 +171,29 @@ void AHealthCompCharacter::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (IInteractInterface* ActorCheck = Cast<IInteractInterface>(OtherActor))
 	{
 		ActorCheck->OnInteract();
+	}
+}
+
+void AHealthCompCharacter::OnFindActorPressed()
+{
+	TArray<AActor*> ActorsToFind;
+	if (UWorld* World = GetWorld())
+	{
+		//UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFireEffect::StaticClass(), ActorsToFind);
+		UGameplayStatics::GetAllActorsOfClassWithTag(GetWorld(), AFireEffect::StaticClass(), FName("FindActorTag"), ActorsToFind);
+	}
+
+	for (AActor* FireEffectActor : ActorsToFind)
+	{
+		//Is this Actor of type FireEffect class?
+		AFireEffect* FireEffectCast = Cast<AFireEffect>(FireEffectActor);
+		if (FireEffectCast)
+		{
+			//Get the Particle Fire Component and deactivate it.            
+			FireEffectCast->GetParticleFireComponent()->Deactivate();
+
+			//Get the Fire Audio Component and deactivate it.           
+			FireEffectCast->GetFireAudioComponent()->Deactivate();
+		}
 	}
 }

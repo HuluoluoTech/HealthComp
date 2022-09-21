@@ -82,6 +82,43 @@ DECLARE_DELEGATE(FOnBossDiedDelegate);
 	}
 ```
 
+## Gameplay 第四课：Finding Actors
+### 知识点：
+1.  引入声音模块、和粒子系统
+```c
+UAudioComponent
+UParticleSystemComponent
+```
+
+2. 添加Tag
+```c
+Tags.Add(FName("FindActorTag"));
+```
+
+3. 查找带有Tag的Actor
+```c
+	TArray<AActor*> ActorsToFind;
+	if (UWorld* World = GetWorld())
+	{
+		//UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFireEffect::StaticClass(), ActorsToFind);
+		UGameplayStatics::GetAllActorsOfClassWithTag(GetWorld(), AFireEffect::StaticClass(), FName("FindActorTag"), ActorsToFind);
+	}
+
+	for (AActor* FireEffectActor : ActorsToFind)
+	{
+		//Is this Actor of type FireEffect class?
+		AFireEffect* FireEffectCast = Cast<AFireEffect>(FireEffectActor);
+		if (FireEffectCast)
+		{
+			//Get the Particle Fire Component and deactivate it.            
+			FireEffectCast->GetParticleFireComponent()->Deactivate();
+
+			//Get the Fire Audio Component and deactivate it.           
+			FireEffectCast->GetFireAudioComponent()->Deactivate();
+		}
+	}
+```
+
 ---
 
 https://docs.unrealengine.com/5.0/en-US/adding-components-to-an-actor-in-unreal-engine/
